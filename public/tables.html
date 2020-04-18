@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Add icon library -->
+    <script src="https://kit.fontawesome.com/99af946072.js" crossorigin="anonymous"></script>
+
+
+    <title>Tasty Eats Rez</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">Tasty Eats Rez</h1>
+        <p class="lead">Current Reservations and Waiting List</p>
+        <hr class="my-4">
+        <a class="btn btn-primary btn-lg" href="reserve" role="button"><i class="fas fa-utensils"></i> Make
+            Reservation</a>
+        <a class="btn btn-warning btn-lg" href="home" role="button"><i class="fa fa-home"></i></a>
+    <button id="getTables" class="btn btn-success btn-lg" > <i class="fab fa-fort-awesome"></i> Tables</button>
+    <div id="tables"> 
+
+    </div>
+   
+
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+
+
+
+        function getTables() {
+
+            $.get("./api/tables")
+                // We store all of the retrieved data inside of an object called "response"
+                .then(function (response) {
+                    const tables = $("#tables")
+                    tables.empty();
+                    response.forEach(thing => {
+                        let newCard = $("<div>").attr("class", "card")
+                        let cardBody = $(`<div class="card-body">`)
+                        let name = $(`<p class="card-title">`).text(thing.name);
+                        let email = $("<p>").text(thing.email);
+                        let phone = $("<p>").text(thing.phone);
+                        let id = $("<p>").text(thing.id);
+                        let remove = $(`<a class="btn btn-danger btn-lg remove" data-value="${thing.id}"> <i class="fa fa-trash-alt"></i> Remove</a>`);
+                        
+                        cardBody.append(name, email, phone, id, remove)
+                        newCard.append(cardBody)
+                        tables.append(newCard)
+                    })
+                    $(".remove").on("click", function () {
+                        event.preventDefault();
+                        console.log("delete clicked")
+                        let idClicked = $(this).attr("data-value")
+
+                        // /api/customer/:id
+                        // DELETE
+                        $.ajax({
+                            method: "DELETE",
+                            url: `/api/customer/${idClicked}`
+                        }).then(response => {
+                            console.log(response)
+                            getTables();
+                        })
+                    })
+                });
+        }
+
+        $("#getTables").on("click", function () {
+            event.preventDefault();
+            getTables();
+        })
+
+
+ // const customer = new Customer ($("#name"), $("#email"), $("#phone"), $("#id"))
+    </script>
+    </div>
+</body>
+
+</html>

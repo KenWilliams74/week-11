@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Add icon library -->
+    <script src="https://kit.fontawesome.com/99af946072.js" crossorigin="anonymous"></script>
+
+    <title>Tasty Eats Rez</title>
+</head>
+<body>
+    <div class="container">
+    <div class="text-center" class="jumbotron">
+        <h1 class="text-center" class="display-4">Tasty Eats Rez</h1>
+        <p class="text-center" class="lead"> Make Your Reservation</p>
+        <a class="btn btn-warning btn-lg" href="home" role="button"> <i class="fa fa-home"></i></a>
+        <hr class="my-4">
+        
+        <div class="text-center">
+          <a href="tables"><button class="btn btn-lg btn-primary"> View Tables </button></a>
+      </div>
+      
+      </div>
+    <div id=table-form>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Name</label>
+        <input class="form-control" id="name" placeholder="Susan Summers">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Email address</label>
+        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Phone Number</label>
+        <input  class="form-control" id="phone" placeholder="520-555-5555">
+      </div>
+
+      <button type="button" class="btn btn-primary" id="submit">Submit</button>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+$("#submit").on("click", function(){
+  event.preventDefault();
+  var data = {
+      name: $("#name").val(),
+      email: $("#email").val(),
+      phone: $("#phone").val(),
+  
+    }
+  if (data.name === "" || data.email === "" || data.phone === "") {
+    return alert("Please fill all input groups!");
+  }
+  
+  $.post("/api/tables", data)
+  
+})
+
+// const customer = new Customer ($("#name"), $("#email"), $("#phone"), $("#id"))
+
+</script>
+</body>
+</html>
